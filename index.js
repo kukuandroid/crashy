@@ -1,6 +1,6 @@
 import {Alert} from 'react-native';
 import {setJSExceptionHandler, setNativeExceptionHandler} from './src/error-handler';
-import {sendLog} from './src/send-error';
+import {fetchOriginalErrorLine, formatString, sendLog} from './src/send-error';
 import {clear} from './src/utils/local-storage';
 import {checkIfItemExist} from './src/utils/shared';
 
@@ -20,11 +20,15 @@ const checkLocalData = async () => {
   }
 };
 
-const errorHandler = (e, isFatal) => {
+const errorHandler = async (e, isFatal) => {
   let errString = JSON.stringify(e, Object.getOwnPropertyNames(e));
+  const formattedString = formatString(errString);
+  const line =  formattedString[0];
+  const column =  formattedString[1];
+  let errorInfo =  await fetchOriginalErrorLine(line, column);
   // alert message
   if (isFatal) {
-    Alert.alert(errTitle, errMsg ? errMsg :  errString, [
+    Alert.alert(errTitle, errMsg ? errMsg :  JSON.stringify(errorInfo), [
       {
         text: 'Cancel',
         onPress: () => console.log('Cancel Pressed'),
@@ -46,7 +50,7 @@ export default {
     custInfo = customerInfo;
     dvcInfo = deviceInfo;
 
-    console.log('init exception handler ...');
+    console.log('crashy initialization ...');
     setNativeExceptionHandler(() => {}, false);
     setJSExceptionHandler(errorHandler, true);
     checkLocalData();
