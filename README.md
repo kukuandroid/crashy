@@ -18,6 +18,7 @@ In Bundled mode , the app just quits without any prompt !
 ## Installation
 **Note: You must be using React Native 0.60.0 or higher to use the most recent version of `crashy`.**
 
+For iOS, just run pod install
 
 ``` npm install https://github.com/kukuandroid/crashy.git#stable --save ```
 
