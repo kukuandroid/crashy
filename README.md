@@ -1,6 +1,6 @@
 # Crashy Project 
 
-Battery-included with automatic error logging, just provide your api server url
+Battery-included with automatic error logging, just provide your api server url. Support offline mode
 
 ## Usage
 
@@ -13,8 +13,8 @@ import Crashy from "crashy"
    Crashy.init({
             apiUrl: "your-api-url",
             deviceInfo: { // any device details },
-            errorTitle: "Error Title",
-            customerId: "your-customer-id",
+            errorTitle: "your-error-title",
+            customerInfo: { mayaUserId, username },
             errorMessage: "",
         });
 ```
@@ -35,9 +35,10 @@ As react-native@0.60.0 or above supports autolinking, so there is no need to run
 ## Option Properties
 Property | Type | Default | Desc
 --- | --- | --- | ---
-apiLogUrl *(required)* | `String` | null | Log Error Server Url
+apiUrl *(required)* | `String` | null | Log Error Server Url
 errorTitle  | `String` | default | Alert message title
 errorMessage | `String` | default | Alert message body
+customerInfo | `Object` | 
 deviceInfo | `Object` |  
 
 
