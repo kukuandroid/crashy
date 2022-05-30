@@ -44,7 +44,5 @@
     "eslint-plugin-react-native": "^2.3.2"
   },
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "source-map": "^0.7.3"
   }
 }
