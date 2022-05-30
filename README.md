@@ -11,13 +11,10 @@ In Bundled mode , the app just quits without any prompt !
 
 ## Features
 
--   [x] Aggressively cache images.
--   [x] Add authorization headers.
--   [x] Prioritize images.
--   [x] Preload images.
--   [x] GIF support.
--   [x] Border radius.
--   
+-   [x] Automatic error handler.
+-   [x] Automatic report to server.
+-   [x] Support offline mode.
+
 ## Installation
 **Note: You must be using React Native 0.60.0 or higher to use the most recent version of `crashy`.**
 
