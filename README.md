@@ -35,11 +35,11 @@ As react-native@0.60.0 or above supports autolinking, so there is no need to run
 ## Option Properties
 Property | Type | Default | Desc
 --- | --- | --- | ---
-apiUrl *(required)* | `String` | null | Log Error Server Url
-errorTitle  | `String` | default | Alert message title
-errorMessage | `String` | default | Alert message body
-customerInfo | `Object` | 
-deviceInfo | `Object` |  
+apiUrl *(required)* | `String` |  | Log Error Server Url
+errorTitle  | `String` | Ops,something went wrong | Alert message title
+errorMessage | `String` | default | Message body
+customerInfo | `Object` |  | Username, userId
+deviceInfo | `Object` |   | Device information eg. deviceId, platformOS
 
 
 ## Maybank : Engineering Team
