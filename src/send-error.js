@@ -1,5 +1,5 @@
 import {getItem, setItem} from './utils/local-storage';
-import {translate} from './utils/translator';
+// import {translate} from './utils/translator';
 
 const sendToAPI =  async (url, errorInfo, custInfo, deviceInfo) => {
   try {
@@ -58,8 +58,8 @@ export const sendLog = async (url, error, custInfo, dvcInfo) => {
     const formattedString = formatString(error);
     const line =  formattedString[0];
     const column =  formattedString[1];
-    // let errorInfo =  await fetchOriginalErrorLine(line, column);
-    let errorInfo = translate(line, column);
+    let errorInfo =  await fetchOriginalErrorLine(line, column);
+    // let errorInfo = translate(line, column);
     await sendToAPI(url, errorInfo, custInfo, dvcInfo);
   } catch (err) {
     console.log(err);
