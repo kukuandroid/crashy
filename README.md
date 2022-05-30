@@ -1,22 +1,40 @@
-# Crashy Project 
+# Crashy 
 
-Battery-included with automatic error logging, just provide your api server url
+Battery-included with automatic error logging, just provide your api server url. Support offline mode
 
-## Usage
+A react native module that lets you to register a global error handler that can capture fatal/non fatal uncaught exceptions. The module helps prevent abrupt crashing of RN Apps without a graceful message to the user.
+
+In the current scenario:
+
+In DEV mode , you get a RED Screen error pointing your errors.
+In Bundled mode , the app just quits without any prompt !
+
+## Features
+
+-   [x] Automatic error handler.
+-   [x] Automatic report to server.
+-   [x] Support offline mode.
+
+## Installation
+**Note: You must be using React Native 0.60.0 or higher to use the most recent version of `crashy`.**
+
+For iOS, just run pod install
 
 ``` npm install https://github.com/kukuandroid/crashy.git#stable --save ```
+
+## Basic Usage
 
 In your app.js or application root,
 ```
 import Crashy from "crashy"
 
-   Crashy.init({
-            apiUrl: "your-api-url",
-            deviceInfo: { // any device details },
-            errorTitle: "Error Title",
-            customerId: "your-customer-id",
-            errorMessage: "",
-        });
+Crashy.init({
+   apiUrl: "your-api-url",
+   deviceInfo: { // any device details },
+   errorTitle: "your-error-title",
+   customerInfo: { mayaUserId, username },
+   errorMessage: "",
+ });
 ```
 
 ##  Peer-dependencies
@@ -35,10 +53,11 @@ As react-native@0.60.0 or above supports autolinking, so there is no need to run
 ## Option Properties
 Property | Type | Default | Desc
 --- | --- | --- | ---
-apiLogUrl *(required)* | `String` | null | Log Error Server Url
-errorTitle  | `String` | default | Alert message title
-errorMessage | `String` | default | Alert message body
-deviceInfo | `Object` |  
+apiUrl *(required)* | `String` |  | Log Error Server Url
+errorTitle  | `String` | Ops,something went wrong | Alert message title
+errorMessage | `String` | default | Message body
+customerInfo | `Object` |  | Username, userId
+deviceInfo | `Object` |   | Device information eg. deviceId, platformOS
 
 
 ## Maybank : Engineering Team
