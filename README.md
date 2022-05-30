@@ -2,9 +2,11 @@
 
 Battery-included with automatic error logging, just provide your api server url. Support offline mode
 
-## Usage
+## Installation
 
 ``` npm install https://github.com/kukuandroid/crashy.git#stable --save ```
+
+## Basic Usage
 
 In your app.js or application root,
 ```
