@@ -1,4 +1,4 @@
-# Crashy Project 
+# Crashy 
 
 Battery-included with automatic error logging, just provide your api server url. Support offline mode
 
