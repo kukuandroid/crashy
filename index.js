@@ -11,6 +11,7 @@ import {
 } from './src/send-error';
 import {clear} from './src/utils/local-storage';
 import {checkIfItemExist} from './src/utils/shared';
+import {translate} from './src/utils/translator';
 
 let apiUrl;
 let errTitle;
@@ -31,7 +32,8 @@ const errorHandler = async (e, isFatal) => {
   const formattedString = formatString(errString);
   const line = formattedString[0];
   const column = formattedString[1];
-  let errorInfo = await fetchOriginalErrorLine(line, column);
+  let errorInfo =  translate(line, column);
+  // let errorInfo = await fetchOriginalErrorLine(line, column);
   // alert message
   if (isFatal) {
     Alert.alert(
