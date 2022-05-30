@@ -10,13 +10,13 @@ In your app.js or application root,
 ```
 import Crashy from "crashy"
 
-   Crashy.init({
-            apiUrl: "your-api-url",
-            deviceInfo: { // any device details },
-            errorTitle: "your-error-title",
-            customerInfo: { mayaUserId, username },
-            errorMessage: "",
-        });
+Crashy.init({
+   apiUrl: "your-api-url",
+   deviceInfo: { // any device details },
+   errorTitle: "your-error-title",
+   customerInfo: { mayaUserId, username },
+   errorMessage: "",
+ });
 ```
 
 ##  Peer-dependencies
