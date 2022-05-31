@@ -1,13 +1,15 @@
-import {getItem, setItem} from './utils/local-storage';
-// import {translate} from './utils/translator';
+import {getItem, key, setItem} from './utils/local-storage';
+//  import {translate} from './utils/translator';
 
-const sendToAPI =  async (url, errorInfo, custInfo, deviceInfo) => {
+export const sendToAPI =  async (url, errorInfo, custInfo, deviceInfo) => {
   try {
     let body = {
       errorInfo,
       deviceInfo,
-      custInfo 
+      custInfo,
+      timestamp: new Date()
     };
+    console.log(JSON.stringify(body));
     const rawResponse = await fetch(url, {
       method: 'POST',
       headers: {
@@ -17,24 +19,21 @@ const sendToAPI =  async (url, errorInfo, custInfo, deviceInfo) => {
       body: JSON.stringify(body),
     });
     const content = await rawResponse.json();
-    console.log(JSON.stringify(body));
     console.log('error sent', content);
-    console.log('====================================');
     return content;
   } catch (err) {
     saveToLocalStorage(errorInfo, deviceInfo, custInfo);
-    throw new Error;
+    // throw new Error;
   }
 };
 
 
-const saveToLocalStorage = async (error, deviceInfo, custInfo) => {
-  var existing =  await getItem('@error_logs');
+const saveToLocalStorage = async (errorInfo, deviceInfo, custInfo) => {
+  var existing =  await getItem(key);
   existing = existing ? JSON.parse(existing) : [];
-  console.log('existing ->', existing);
-  if (error) {
-    existing.push({error, deviceInfo, custInfo});
-    await setItem('@error_logs', JSON.stringify(existing));
+  if (errorInfo) {
+    existing.push({errorInfo, deviceInfo, custInfo});
+    await setItem(key, JSON.stringify(existing));
   }
 };
 
@@ -59,10 +58,17 @@ export const sendLog = async (url, error, custInfo, dvcInfo) => {
     const line =  formattedString[0];
     const column =  formattedString[1];
     let errorInfo =  await fetchOriginalErrorLine(line, column);
-    // let errorInfo = translate(line, column);
+    //  let errorInfo = translate(line, column);
     await sendToAPI(url, errorInfo, custInfo, dvcInfo);
   } catch (err) {
     console.log(err);
   }
 };
 
+module.exports = {
+  sendToAPI: sendToAPI,
+  sendLog: sendLog,
+  formatString: formatString,
+  fetchOriginalErrorLine: fetchOriginalErrorLine,
+  saveToLocalStorage: saveToLocalStorage
+};

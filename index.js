@@ -18,6 +18,7 @@ let errTitle;
 let errMsg;
 let custInfo;
 let dvcInfo;
+let onErr;
 
 const checkLocalData = async () => {
   let data = await checkIfItemExist('@error_logs');
@@ -36,18 +37,21 @@ const errorHandler = async (e, isFatal) => {
   let errorInfo = await fetchOriginalErrorLine(line, column);
   // alert message
   if (isFatal) {
-    Alert.alert(
-      errTitle ? errTitle : defaultTitle,
-      errMsg ? errMsg : JSON.stringify(errorInfo),
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]
-    );
+    // Alert.alert(
+    //   errTitle ? errTitle : defaultTitle,
+    //   errMsg ? errMsg : JSON.stringify(errorInfo),
+    //   [
+    //     {
+    //       text: 'Cancel',
+    //       onPress: () => console.log('Cancel Pressed'),
+    //       style: 'cancel',
+    //     },
+    //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+    //   ]
+    // );
+
+    // pass callback
+    onErr(errorInfo);
     sendLog(apiUrl, errString, custInfo, dvcInfo);
   } else {
     console.log(e); // So that we can see it in the ADB logs in case of Android if needed
@@ -61,13 +65,14 @@ export default {
     errorMessage = '',
     customerInfo = '',
     deviceInfo = {},
+    onError = {}
   }) {
     apiUrl = apiLogUrl;
     errMsg = errorMessage;
     errTitle = errorTitle;
     custInfo = customerInfo;
     dvcInfo = deviceInfo;
-
+    onErr = onError;
     console.log('crashy initialization ...');
     setNativeExceptionHandler(() => {}, false);
     setJSExceptionHandler(errorHandler, true);
