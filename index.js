@@ -8,22 +8,23 @@ import {
   fetchOriginalErrorLine,
   formatString,
   sendLog,
+  sendToAPI,
 } from './src/send-error';
-import {clear} from './src/utils/local-storage';
+import {clear, key} from './src/utils/local-storage';
 import {checkIfItemExist} from './src/utils/shared';
 // import {translate} from './src/utils/translator';
 
-let apiUrl;
-let errTitle;
-let errMsg;
-let custInfo;
-let dvcInfo;
+// let apiUrl;
+// let errTitle;
+// let errMsg;
+// let custInfo;
+// let dvcInfo;
 let onErr;
 
 const checkLocalData = async () => {
-  let data = await checkIfItemExist('@error_logs');
+  let data = await checkIfItemExist(key);
   if (data) {
-    await sendLog(apiUrl, JSON.parse(data), custInfo, dvcInfo);
+    await sendLog(JSON.parse(data));
     clear();
   }
 };
@@ -37,22 +38,9 @@ const errorHandler = async (e, isFatal) => {
   let errorInfo = await fetchOriginalErrorLine(line, column);
   // alert message
   if (isFatal) {
-    // Alert.alert(
-    //   errTitle ? errTitle : defaultTitle,
-    //   errMsg ? errMsg : JSON.stringify(errorInfo),
-    //   [
-    //     {
-    //       text: 'Cancel',
-    //       onPress: () => console.log('Cancel Pressed'),
-    //       style: 'cancel',
-    //     },
-    //     {text: 'OK', onPress: () => console.log('OK Pressed')},
-    //   ]
-    // );
-
     // pass callback
     onErr(errorInfo);
-    sendLog(apiUrl, errString, custInfo, dvcInfo);
+    sendLog(errorInfo);
   } else {
     console.log(e); // So that we can see it in the ADB logs in case of Android if needed
   }
@@ -60,22 +48,29 @@ const errorHandler = async (e, isFatal) => {
 
 export default {
   init ({
-    apiLogUrl = '',
-    errorTitle = '',
-    errorMessage = '',
-    customerInfo = '',
+    apiLogUrl,
+    errorTitle,
+    errorMessage,
+    customerInfo = {},
     deviceInfo = {},
-    onError = {}
+    onError
   }) {
-    apiUrl = apiLogUrl;
-    errMsg = errorMessage;
-    errTitle = errorTitle;
-    custInfo = customerInfo;
-    dvcInfo = deviceInfo;
+    global.apiLogUrl = apiLogUrl;
+    // errMsg = errorMessage;
+    // errTitle = errorTitle;
+    global.customerInfo = customerInfo;
+    global.deviceInfo = deviceInfo;
     onErr = onError;
     console.log('crashy initialization ...');
     setNativeExceptionHandler(() => {}, false);
     setJSExceptionHandler(errorHandler, true);
     checkLocalData();
   },
+  sendToAPI (errTitle, errDetail) {
+    const errorInfo = {
+      name: errTitle,
+      detail: errDetail
+    };
+    sendToAPI(errorInfo);
+  }
 };
